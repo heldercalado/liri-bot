@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+ 
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  
+  <script
+  src="https://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="style.css">
+  <title>Home Work</title>
+</head>
+<body>
+
+  
+  <div class="container child">
+    <h1> Welcome to the Main Page </h1>
+    <form action="" method="" id="myform">
+      <div class="form-group">
+        <label for="options">Choose a Command</label>
+        <select class="form-control" id="options">
+        <option></option>
+          <option>concert-this</option>
+          <option>spotify-this-song</option>
+          <option>movie-this</option>
+          <option>do-what-it-says</option>
+        </select>
+        </div>
+      <div class="form-group">
+        <label for="moviename">Movie Name</label>
+        <input type="text" class="form-control" id="moviename" name='name' aria-describedby="moviehelp" placeholder="Enter Movie Name">
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+  </div>
+
+  
+</div>
+</body>
+
+<script>
+$("#options").change(function() {
+  var action = $(this).val();
+  if (action ==="movie-this"){
+    $("#myform").attr("action", "/movie");
+    $.get('/movie',"?"+ $("#myform").serialize(), function (data) {
+ 	    console.log(data) //data is the response from the backend
+    });   
+    event.preventDefault();
+
+  }else if (action ==="spotify-this-song"){
+    $("#myform").attr("action", "/spotify");
+    $.get('/spotify',"?"+ $("#myform").serialize(), function (data) {
+ 	    console.log(data) //data is the response from the backend
+    });   
+    event.preventDefault();
+
+  }else if (action ==="do-what-it-says"){
+    
+    $.get('/movie',"?"+ $("#myform").serialize(), function (data) {
+ 	    console.log(data) //data is the response from the backend
+    });   
+    event.preventDefault();
+
+  }
+  
+});
+
+
+
+// $("#myform").submit(function (event) {
+//   console.log ($("#myform").serialize());
+//   $.post('/movie',"?"+ $("#myform").serialize(), function (data) {
+//  	console.log(data) //data is the response from the backend
+//   });
+//   event.preventDefault();
+// });
+
+</script>
+</html>
