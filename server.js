@@ -19,7 +19,7 @@ var spotify = new Spotify({
 
 // route pages
 app.get('/', function (req, res) {
-  res.render('index');
+  res.render('index', {err:""});
 });
 
 app.get('/movie', function (req, res) {
@@ -35,7 +35,7 @@ app.get('/movie', function (req, res) {
             })
     
     } else {
-      res.send('User does not exist...');
+      res.render('index', {err:"nothing found"});
     }
   });
   app.get('/spotify', function (req, res) {
@@ -60,6 +60,30 @@ app.get('/movie', function (req, res) {
       console.log(data.tracks); 
       console.log(data.tracks.items); 
       });
+    }
+  });
+  app.get('/bandsintown', function (req, res) {
+    var check = req.query.name;
+    if (check) {
+      var cors =  "https://cors-anywhere.herokuapp.com/"
+      var queryUrl ="https://rest.bandsintown.com/artists/" + check + "/events?app_id="+process.env.app_id;
+      axios.get(queryUrl).then(
+          function(response) {
+            // If the axios was successful...
+            // Then log the body from the site!
+           
+           // var results = response.data
+           if (response.data.length >0){
+           res.render('bandsintown',{results: response.data});
+           }else {
+             console.log("nothing found");
+             res.render('index', {err:"nothing found"});
+           }
+          })
+        
+     
+    
+    } else {
     }
   });
 

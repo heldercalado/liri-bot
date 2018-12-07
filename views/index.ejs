@@ -33,10 +33,14 @@
         </select>
         </div>
       <div class="form-group">
-        <label for="moviename">Movie Name</label>
-        <input type="text" class="form-control" id="moviename" name='name' aria-describedby="moviehelp" placeholder="Enter Movie Name">
+        <label for="moviename">Query</label>
+        <input type="text" class="form-control" id="moviename" name='name' aria-describedby="moviehelp" placeholder="">
+     <% if (err === "nothing found"){%>
+      <small id="moviehelp" class="form-text text-warning">Nothing Found</small>
+      <% } %>
+      
       </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="submit" id="search" class="btn btn-primary">Search</button>
       </form>
   </div>
 
@@ -45,28 +49,36 @@
 </body>
 
 <script>
-$("#options").change(function() {
-  var action = $(this).val();
+$("#search").on("click",function(event) {
+  
+  var action = $("#options option:selected").text();
+  console.log(action);
   if (action ==="movie-this"){
     $("#myform").attr("action", "/movie");
     $.get('/movie',"?"+ $("#myform").serialize(), function (data) {
- 	    console.log(data) //data is the response from the backend
+ 	    console.log($("#myform").serialize()) //data is the response from the backend
     });   
-    event.preventDefault();
+    
 
   }else if (action ==="spotify-this-song"){
     $("#myform").attr("action", "/spotify");
     $.get('/spotify',"?"+ $("#myform").serialize(), function (data) {
- 	    console.log(data) //data is the response from the backend
+ 	    console.log($("#myform").serialize()) //data is the response from the backend
     });   
-    event.preventDefault();
-
-  }else if (action ==="do-what-it-says"){
     
-    $.get('/movie',"?"+ $("#myform").serialize(), function (data) {
- 	    console.log(data) //data is the response from the backend
+
+  }else if (action ==="concert-this"){
+    $("#myform").attr("action", "/bandsintown");
+    $.get('/bandsintown',"?"+ $("#myform").serialize())
+    
+      .then (function (data,err) {
+ 	    console.log($("#myform").serialize()) //data is the response from the backend
+       console.log(err);
+       if (data.err){
+          console.log(data.err)
+       }
     });   
-    event.preventDefault();
+   
 
   }
   
